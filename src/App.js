@@ -1,36 +1,36 @@
 import React, { useState } from 'react';
 
 const Game = () => {
-  const [playerChoice, setPlayerChoice] = useState(null);
-  const [computerChoice, setComputerChoice] = useState(null);
-  const [result, setResult] = useState(null);
+  const [oyuncuSecimi, oyuncuSeciminiAta] = useState(null);
+  const [bilgisayarSecimi, bilgisayarSeciminiAta] = useState(null);
+  const [sonuc, sonucuAyarla] = useState(null);
 
-  const choices = ['Taş', 'Kağıt', 'Makas'];
+  const secenekler = ['Taş', 'Kağıt', 'Makas'];
 
   const play = choice => {
-    const computerChoice = choices[Math.floor(Math.random() * 3)];
-    setPlayerChoice(choice);
-    setComputerChoice(computerChoice);
+    const bilgisayarSecimi = secenekler[Math.floor(Math.random() * 3)];
+    oyuncuSeciminiAta(choice);
+    bilgisayarSeciminiAta(bilgisayarSecimi);
 
-    if (choice === computerChoice) {
-      setResult('Berabere.');
+    if (choice === bilgisayarSecimi) {
+      sonucuAyarla('Berabere.');
     } else if (
-      (choice === 'Taş' && computerChoice === 'Makas') 
+      (choice === 'Taş' && bilgisayarSecimi === 'Makas') 
     ) {
-      setResult('Kazandın.');
+      sonucuAyarla('Kazandın.');
     } 
     else if (
-      (choice === 'Kağıt' && computerChoice === 'Taş') 
+      (choice === 'Kağıt' && bilgisayarSecimi === 'Taş') 
     ) {
-      setResult('Kazandın.');
+      sonucuAyarla('Kazandın.');
     } 
     else if (
-      (choice === 'Makas' && computerChoice === 'Kağıt')
+      (choice === 'Makas' && bilgisayarSecimi === 'Kağıt')
     ) {
-      setResult('Kazandın.');
+      sonucuAyarla('Kazandın.');
     }          
     else {
-      setResult('Kaybettin.');
+      sonucuAyarla('Kaybettin.');
     }
   };
 
@@ -44,11 +44,11 @@ const Game = () => {
         <button onClick={() => play('Kağıt')}><img src="https://i.hizliresim.com/t8a8a7f.png" border="0" /></button>
         <button onClick={() => play('Makas')}><img src="https://i.hizliresim.com/ckk0pmw.png" border="0" /></button>
       </div>
-      {playerChoice && (
+      {oyuncuSecimi && (
         <div>
-          <p>{playerChoice} seçtin.</p>
-          <p>Bilgisayar ise {computerChoice} seçti.</p>
-          <p>Sonuç: {result}</p>
+          <p>{oyuncuSecimi} seçtin.</p>
+          <p>Bilgisayar ise {bilgisayarSecimi} seçti.</p>
+          <p>Sonuç: {sonuc}</p>
         </div>
       )}
     </div>
