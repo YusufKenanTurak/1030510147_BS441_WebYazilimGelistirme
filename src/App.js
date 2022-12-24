@@ -27,16 +27,18 @@ const Game = () => {
 
   return (
     <div>
-      <h1>Taş, Kağıt, Makas</h1>
+      <h1>React ile Taş, Kağıt, Makas Oyunu</h1>
       <div>
+        <p>Hoşgeldiniz.</p>
+        <p>Başlamak için seçim yapmanız bekleniyor...</p>
         <button onClick={() => play('Taş')}><img src="https://i.hizliresim.com/b3phf3f.png" border="0" /></button>
         <button onClick={() => play('Kağıt')}><img src="https://i.hizliresim.com/t8a8a7f.png" border="0" /></button>
         <button onClick={() => play('Makas')}><img src="https://i.hizliresim.com/ckk0pmw.png" border="0" /></button>
       </div>
       {playerChoice && (
         <div>
-          <p>Sen {playerChoice} seçtin.</p>
-          <p>Bilgisayar {computerChoice} seçti.</p>
+          <p>{playerChoice} seçtin.</p>
+          <p>Bilgisayar ise {computerChoice} seçti.</p>
           <p>Sonuç: {result}</p>
         </div>
       )}
