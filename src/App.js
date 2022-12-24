@@ -15,12 +15,21 @@ const Game = () => {
     if (choice === computerChoice) {
       setResult('Berabere.');
     } else if (
-      (choice === 'Taş' && computerChoice === 'Makas') ||
-      (choice === 'Kağıt' && computerChoice === 'Taş') ||
+      (choice === 'Taş' && computerChoice === 'Makas') 
+    ) {
+      setResult('Kazandın.');
+    } 
+    else if (
+      (choice === 'Kağıt' && computerChoice === 'Taş') 
+    ) {
+      setResult('Kazandın.');
+    } 
+    else if (
       (choice === 'Makas' && computerChoice === 'Kağıt')
     ) {
       setResult('Kazandın.');
-    } else {
+    }          
+    else {
       setResult('Kaybettin.');
     }
   };
