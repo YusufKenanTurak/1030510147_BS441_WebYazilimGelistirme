@@ -1,27 +1,30 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import Game from './Game';
+import TasKagitMakas from './TasKagitMakas';
 
-test('Oyun başlığının oluşturulması', () => {
-  const { getByText } = render(<Game />);
-  const titleElement = getByText(/Taş, Kağıt, Makas/i);
-  expect(titleElement).toBeInTheDocument();
-});
+describe('TasKagitMakas', () => {
+  it('Oyun modu seçim düğmelerini test eder.', () => {
+    const { getByText } = render(<TasKagitMakas />);
+    expect(getByText('Bilgisayara Karşı')).toBeInTheDocument();
+    expect(getByText('İki Oyuncu')).toBeInTheDocument();
+  });
 
-test('Oyuncunun taş, kağıt veya makas seçebilmesi', () => {
-  const { getByText } = render(<Game />);
-  const rockButton = getByText(/Taş/i);
-  const paperButton = getByText(/Kağıt/i);
-  const scissorsButton = getByText(/Makas/i);
-  expect(rockButton).toBeInTheDocument();
-  expect(paperButton).toBeInTheDocument();
-  expect(scissorsButton).toBeInTheDocument();
-});
+  it('Oyuncu 1 ve oyuncu 2 için seçim düğmelerini ve iki oyuncu moduna ait butonları test eder.', () => {
+    const { getByText } = render(<TasKagitMakas />);
+    fireEvent.click(getByText('İki Oyuncu')); // set game mode to two player
+    expect(getByText('Oyuncu 1')).toBeInTheDocument();
+    expect(getByText('Oyuncu 2')).toBeInTheDocument();
+    expect(getByText('Taş')).toBeInTheDocument();
+    expect(getByText('Kağıt')).toBeInTheDocument();
+    expect(getByText('Makas')).toBeInTheDocument();
+  });
+  //
 
-test('Oyuncu bir seçim yaptıktan sonra ekrana sonucun gösterilmesi', () => {
-  const { getByText } = render(<Game />);
-  const rockButton = getByText(/Taş/i);
-  fireEvent.click(rockButton);
-  const resultElement = getByText(/Sonuç/i);
-  expect(resultElement).toBeInTheDocument();
+  it('İki oyuncu modunda kazananı doğruluğunu test eder.', () => {
+    const { getByText } = render(<TasKagitMakas />);
+    fireEvent.click(getByText('İki Oyuncu')); // set game mode to two player
+    fireEvent.click(getByText('Taş')); // player 1 selects Rock
+    fireEvent.click(getByText('Kağıt')); // player 2 selects Paper
+    expect(getByText('Oyuncu 2 kazandı!')).toBeInTheDocument();
+  });
 });

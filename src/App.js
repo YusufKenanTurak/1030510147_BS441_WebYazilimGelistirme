@@ -1,59 +1,121 @@
 import React, { useState } from 'react';
 
-const Game = () => {
-  const [oyuncuSecimi, oyuncuSeciminiAta] = useState(null);
-  const [bilgisayarSecimi, bilgisayarSeciminiAta] = useState(null);
-  const [sonuc, sonucuAyarla] = useState(null);
-
+const TasKagitMakas = () => {
+  // Seçimleri tutmak için iki değişken tanımlayın
+  const [oyuncu1Secimi, oyuncu1SeciminiAyarla] = useState(null);
+  const [oyuncu2Secimi, oyuncu2SeciminiAyarla] = useState(null);
   const secenekler = ['Taş', 'Kağıt', 'Makas'];
+  const rastgeleSec = () => {
+      return secenekler[Math.floor(Math.random() * secenekler.length)];
+    };
+  // Modu tutmak için bir değişken tanımlayın
+  const [mod, moduAyarla] = useState(null);
 
-  const play = choice => {
-    const bilgisayarSecimi = secenekler[Math.floor(Math.random() * 3)];
-    oyuncuSeciminiAta(choice);
-    bilgisayarSeciminiAta(bilgisayarSecimi);
-
-    if (choice === bilgisayarSecimi) {
-      sonucuAyarla('Berabere.');
-    } else if (
-      (choice === 'Taş' && bilgisayarSecimi === 'Makas') 
-    ) {
-      sonucuAyarla('Kazandın.');
-    } 
-    else if (
-      (choice === 'Kağıt' && bilgisayarSecimi === 'Taş') 
-    ) {
-      sonucuAyarla('Kazandın.');
-    } 
-    else if (
-      (choice === 'Makas' && bilgisayarSecimi === 'Kağıt')
-    ) {
-      sonucuAyarla('Kazandın.');
-    }          
-    else {
-      sonucuAyarla('Kaybettin.');
-    }
-  };
-
-  return (
+  // Oyun modlarını render etmek için bir fonksiyon oluşturun
+  const modlariRenderla = () => (
     <div>
-      <h1>React ile Taş, Kağıt, Makas Oyunu</h1>
-      <div>
-        <p>Hoşgeldiniz.</p>
-        <p>Başlamak için seçim yapmanız bekleniyor...</p>
-        <button onClick={() => play('Taş')}><img src="https://i.hizliresim.com/b3phf3f.png" border="0" /></button>
-        <button onClick={() => play('Kağıt')}><img src="https://i.hizliresim.com/t8a8a7f.png" border="0" /></button>
-        <button onClick={() => play('Makas')}><img src="https://i.hizliresim.com/ckk0pmw.png" border="0" /></button>
-      </div>
-      {oyuncuSecimi && (
+      <button onClick={() => moduAyarla('tekKisilik')}>Bilgisayara Karşı</button>
+      <button onClick={() => moduAyarla('ikiKisilik')}>İki Oyuncu</button>
+    </div>
+  );
+
+  // Seçimleri render etmek için bir fonksiyon oluşturun
+  const secimleriRenderla = () => (
+    <div>
+      {mod === 'tekKisilik' && (
         <div>
-          <p>{oyuncuSecimi} seçtin.</p>
-          <p>Bilgisayar ise {bilgisayarSecimi} seçti.</p>
-          <p>Sonuç: {sonuc}</p>
+          <button onClick={() => oyuncu1SeciminiAyarla('Taş')}><img src="https://i.hizliresim.com/b3phf3f.png" border="0" /></button>
+          <button onClick={() => oyuncu1SeciminiAyarla('Kağıt')}><img src="https://i.hizliresim.com/t8a8a7f.png" border="0" /></button>
+          <button onClick={() => oyuncu1SeciminiAyarla('Makas')}><img src="https://i.hizliresim.com/ckk0pmw.png" border="0" /></button>
+        </div>
+      )}
+      {mod === 'ikiKisilik' && (
+        <div>
+          <div>
+            <p>Oyuncu 1</p>
+            <button onClick={() => oyuncu1SeciminiAyarla('Taş')}><img src="https://i.hizliresim.com/b3phf3f.png" border="0" /></button>
+            <button onClick={() => oyuncu1SeciminiAyarla('Kağıt')}><img src="https://i.hizliresim.com/t8a8a7f.png" border="0" /></button>
+            <button onClick={() => oyuncu1SeciminiAyarla('Makas')}><img src="https://i.hizliresim.com/ckk0pmw.png" border="0" /></button>
+          </div>
+          <div>
+            <p>Oyuncu 2</p>
+            <button onClick={() => oyuncu2SeciminiAyarla('Taş')}><img src="https://i.hizliresim.com/b3phf3f.png" border="0" /></button>
+            <button onClick={() => oyuncu2SeciminiAyarla('Kağıt')}><img src="https://i.hizliresim.com/t8a8a7f.png" border="0" /></button>
+            <button onClick={() => oyuncu2SeciminiAyarla('Makas')}><img src="https://i.hizliresim.com/ckk0pmw.png" border="0" /></button>
+          </div>
         </div>
       )}
     </div>
   );
-  //Burada resimleri kendim çizip projenin çevrimiçi bağlantılı olması adına hızlıresim sitesinden çekmesi için upload ettim. İyi çalışmalar.
+
+  // Kazananı hesaplamak için bir fonksiyon oluşturun
+  const kazananiBul = () => {
+    if(mod==='ikiKisilik'){
+      if (
+        (oyuncu1Secimi === 'Taş' && oyuncu2Secimi === 'Makas') ||
+        (oyuncu1Secimi === 'Kağıt' && oyuncu2Secimi === 'Taş') ||
+        (oyuncu1Secimi === 'Makas' && oyuncu2Secimi === 'Kağıt')
+      ) {
+          return 'Oyuncu 1 '+oyuncu1Secimi+' seçti, Oyuncu 2 ise '+oyuncu2Secimi+' seçti, Sonuç: Oyuncu 1 kazandı!';
+        } 
+        else if (oyuncu1Secimi === oyuncu2Secimi) {
+          return 'Berabere'
+        }
+        else {
+          return 'Oyuncu 1 '+oyuncu1Secimi+' seçti, Oyuncu 2 ise '+oyuncu2Secimi+' seçti, Sonuç: Oyuncu 2 kazandı!';
+        }
+    }
+    else{
+      const oyuncu2Secimi = secenekler[Math.floor(Math.random() * 3)];
+      if (
+        (oyuncu1Secimi === 'Taş' && oyuncu2Secimi === 'Makas') ||
+        (oyuncu1Secimi === 'Kağıt' && oyuncu2Secimi === 'Taş') ||
+        (oyuncu1Secimi === 'Makas' && oyuncu2Secimi === 'Kağıt')
+      ) {
+          return 'Oyuncu 1 '+oyuncu1Secimi+' seçti, Bilgisayar ise '+oyuncu2Secimi+' seçti, Sonuç: Oyuncu 1 kazandı!';
+        } 
+        else if (oyuncu1Secimi === oyuncu2Secimi) {
+          return 'Oyuncu 1 '+oyuncu1Secimi+' seçti, Bilgisayar ise '+oyuncu2Secimi+' seçti, Sonuç: Berabere!';
+        }
+        else {
+          return 'Oyuncu 1 '+oyuncu1Secimi+' seçti, Bilgisayar ise '+oyuncu2Secimi+' seçti, Sonuç: Bilgisayar kazandı!';
+        }
+      
+    }
+  };
+  // Kazananı render etmek için bir fonksiyon oluşturun
+  const kazananirenderla = () => {
+    if (mod === 'ikiKisilik' && oyuncu1Secimi && oyuncu2Secimi) {
+      return <p>{kazananiBul()}</p>;
+    }
+    if (mod === 'tekKisilik' && oyuncu1Secimi && oyuncu2Secimi) {
+      return <p>{kazananiBul()}</p>;
+    }
+    return null;
+  };
+  
+  const oyunBaslangici = () => (
+    <div>
+    <h1>React ile Taş, Kağıt, Makas Oyunu</h1>
+      <button onClick={() => oyuncu2SeciminiAyarla(rastgeleSec)}>Oyuna Başla</button>
+    </div>
+  );
+
+
+  // Componenti render etmek için bir fonksiyon oluşturun
+  const oyunuRenderla = () => (
+    <div>
+      {oyunBaslangici()}
+      {oyuncu2Secimi && modlariRenderla()}
+      {secimleriRenderla()}
+      {kazananirenderla()}
+    </div>
+  );
+
+  // Componenti döndürün
+
+  return oyunuRenderla();
 };
 
-export default Game;
+export default TasKagitMakas;
+  
