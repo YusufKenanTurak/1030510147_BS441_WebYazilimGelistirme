@@ -18,8 +18,7 @@ describe('TasKagitMakas', () => {
     expect(getByText('Kağıt')).toBeInTheDocument();
     expect(getByText('Makas')).toBeInTheDocument();
   });
-  //
-
+  
   it('İki oyuncu modunda kazananı doğruluğunu test eder.', () => {
     const { getByText } = render(<TasKagitMakas />);
     fireEvent.click(getByText('İki Oyuncu')); // set game mode to two player
